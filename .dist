@@ -3,6 +3,7 @@ PORT=3000
 DATABASE_URL=postgresql://<USER>:<PASSWORD>@<HOST>:<PORT>/<DATABASE>
 
 SOCKET_URL=http://localhost:3000
+RABBITMQ_URL=amqp://localhost
 
 JWT_SECRET=myjwtsecret123
 JWT_EXPIRY=900
