@@ -1,13 +1,13 @@
-const { Pool } = require('pg')
+const { Pool } = require('pg');
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
-})
+  connectionString: process.env.DATABASE_URL,
+});
 
 const db = {
   ...require('./items')(pool),
   ...require('./users')(pool),
-}
+};
 
 db.initialise = async () => {
   await pool.query(`
@@ -16,7 +16,7 @@ db.initialise = async () => {
       username VARCHAR(100) NOT NULL,
       password_hash VARCHAR(100) NOT NULL
     )
-  `)
+  `);
   await pool.query(`
     CREATE TABLE IF NOT EXISTS Items (
       id SERIAL PRIMARY KEY,
@@ -25,11 +25,11 @@ db.initialise = async () => {
       uid INTEGER NOT NULL,
       FOREIGN KEY (uid) REFERENCES Users(id)
     )
-  `)
-}
+  `);
+};
 
 db.end = async () => {
-  await pool.end()
-}
+  await pool.end();
+};
 
-module.exports = db
+module.exports = db;

@@ -10,11 +10,8 @@
   },
   "rules": {
     "indent": ["error", 2],
-    "no-unused-vars": [
-      "error",
-      { "vars": "all", "args": "none", "ignoreRestSiblings": false }
-    ],
-    "semi": ["error", "never"],
+    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
+    "semi": ["error", "always"],
     "quotes": ["error", "single"]
   }
 }
