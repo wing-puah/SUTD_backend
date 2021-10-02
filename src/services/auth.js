@@ -18,7 +18,7 @@ module.exports = (db) => {
     if (user) {
       return null;
     } else {
-      const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+      const passwordHash = await bcrypt.hash(String(password), SALT_ROUNDS);
       const newUser = new User({ username, password_hash: passwordHash });
 
       const user = await db.insertUser(newUser);
@@ -29,7 +29,7 @@ module.exports = (db) => {
   service.loginUser = async (username, password) => {
     const user = await db.findUserByUsername(username);
     if (user) {
-      const isValid = await bcrypt.compare(password, user.password_hash);
+      const isValid = await bcrypt.compare(String(password), String(user.password_hash));
       if (isValid) {
         return service.generateToken(user.id);
       }

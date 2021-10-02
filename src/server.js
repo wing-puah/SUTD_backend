@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 
-const Chatbot = require('./chatbot');
+const Chatbot = require('./services/chatbot');
 const Router = require('./routes');
 const AuthMiddleware = require('./middlewares/auth');
 const AuthService = require('./services/auth');
