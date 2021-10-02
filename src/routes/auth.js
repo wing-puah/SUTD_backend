@@ -1,4 +1,5 @@
 const express = require('express');
+const { queueNewUserEmail } = require('../services/email/producer');
 
 module.exports = (service) => {
   const router = express.Router();
@@ -8,6 +9,7 @@ module.exports = (service) => {
 
     const token = await service.registerUser(username, password);
     if (token) {
+      queueNewUserEmail(username);
       res.send({ token: token });
     } else {
       res.status(400).send(`Username ${username} already exists`);

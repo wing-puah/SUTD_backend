@@ -22,6 +22,7 @@ module.exports = (db) => {
       const newUser = new User({ username, password_hash: passwordHash });
 
       const user = await db.insertUser(newUser);
+
       return service.generateToken(user.id);
     }
   };
