@@ -47,5 +47,20 @@ module.exports = (db) => {
     }
   };
 
+  service.verifyUserAndTodo = async (userId, todoId) => {
+    try {
+      const item = await db.findItemFromUser(todoId, userId);
+
+      if (item) {
+        return item;
+      }
+
+      return null;
+    } catch (error) {
+      console.error({ error });
+      return null;
+    }
+  };
+
   return service;
 };

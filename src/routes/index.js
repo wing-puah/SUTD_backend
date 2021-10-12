@@ -1,6 +1,6 @@
 const express = require('express');
 
-module.exports = (authMiddleware, authService, db) => {
+module.exports = (authMiddleware, todoAuthMiddleware, authService, db) => {
   const router = express.Router();
 
   router.get('/', (req, res, next) => {
@@ -12,7 +12,7 @@ module.exports = (authMiddleware, authService, db) => {
   // All routes from this point will use the auth middleware
   router.use(authMiddleware);
 
-  router.use('/items', require('./items')(db));
+  router.use('/items', require('./items')(db, todoAuthMiddleware));
 
   return router;
 };

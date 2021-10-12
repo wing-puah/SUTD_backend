@@ -5,6 +5,7 @@ const logger = require('morgan');
 const Chatbot = require('./services/chatbot');
 const Router = require('./routes');
 const AuthMiddleware = require('./middlewares/auth');
+const TodoAuthMiddleware = require('./middlewares/todoAuth');
 const AuthService = require('./services/auth');
 const db = require('./db');
 
@@ -16,7 +17,8 @@ Chatbot(app);
 
 const authService = AuthService(db);
 const authMiddleware = AuthMiddleware(authService);
-const router = Router(authMiddleware, authService, db);
+const todoAuthMiddleware = TodoAuthMiddleware(authService);
+const router = Router(authMiddleware, todoAuthMiddleware, authService, db);
 
 app.use(router);
 

@@ -4,6 +4,7 @@ module.exports = (pool) => {
   const db = {};
 
   db.insertUser = async (user) => {
+    console.log({ user });
     const res = await pool.query(
       'INSERT INTO Users (username,password_hash) VALUES ($1,$2) RETURNING *',
       [user.username, user.password_hash]
@@ -12,10 +13,7 @@ module.exports = (pool) => {
   };
 
   db.findUserByUsername = async (username) => {
-    const res = await pool.query(
-      'SELECT * FROM Users WHERE username = $1',
-      [username]
-    );
+    const res = await pool.query('SELECT * FROM Users WHERE username = $1', [username]);
     return res.rowCount ? new User(res.rows[0]) : null;
   };
 

@@ -21,9 +21,15 @@ module.exports = (pool) => {
     return res.rowCount ? new Item(res.rows[0]) : null;
   };
 
+  db.findItemFromUser = async (id, user) => {
+    console.log({ id, user });
+    const res = await pool.query('SELECT * FROM Items WHERE id=$1 AND uid=$2', [id, user]);
+    return res.rowCount ? new Item(res.rows[0]) : null;
+  };
+
   db.updateItem = async (id, item) => {
     const res = await pool.query(
-      'UPDATE Items SET name=$2, quantity=$3, uid=$4,  WHERE id=$1 RETURNING *',
+      'UPDATE Items SET name=$2, quantity=$3, uid=$4 WHERE id=$1 RETURNING *',
       [id, item.name, item.quantity, item.uid]
     );
     return new Item(res.rows[0]);
