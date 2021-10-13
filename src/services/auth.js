@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS);
 const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRY = parseInt(process.env.JWT_EXPIRY);
+const JWT_EXPIRY = process.env.JWT_EXPIRY;
 
 module.exports = (db) => {
   const service = {};
