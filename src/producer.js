@@ -1,15 +1,15 @@
 const amqplib = require('amqplib');
 
-const queue = 'signup';
+const queue = 'heartbeat';
 
-async function queueNewUserEmail(email) {
+async function publishHeartbeat(heartbeatMessage) {
   const client = await amqplib.connect(process.env.CLOUDAMQP_URL);
   const channel = await client.createChannel();
   await channel.assertQueue(queue);
-  const message = { email };
-  channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
+
+  channel.sendToQueue(queue, Buffer.from(JSON.stringify({ message: heartbeatMessage })), {
     contentType: 'application/json',
   });
 }
 
-module.exports = { queueNewUserEmail };
+module.exports = { publishHeartbeat };

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "start:consumer": "node src/services/email/consumer.js",
+    "start:consumer": "node src/consumer.js",
     "db:migrate": "node scripts/migrate.js",
     "test": "jest --runInBand --coverage",
     "eslint:fix": "eslint \"./**\" --fix"
@@ -19,7 +19,9 @@
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-openapi-validator": "^4.13.2",
     "express-ws": "^5.0.2",
+    "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "nodemailer": "^6.6.5",

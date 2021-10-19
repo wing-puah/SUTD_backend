@@ -1,28 +1,35 @@
 require('dotenv').config();
 const express = require('express');
-const logger = require('morgan');
-
-const Chatbot = require('./services/chatbot');
-const Router = require('./routes');
-const AuthMiddleware = require('./middlewares/auth');
-const TodoAuthMiddleware = require('./middlewares/todoAuth');
-const AuthService = require('./services/auth');
-const db = require('./db');
-
 const app = express();
+const cron = require('node-cron');
+const fs = require('fs');
+const path = require('path');
+
+const { publishHeartbeat } = require('./producer');
+
+require('express-ws')(app);
+const logger = require('morgan', {
+  stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' }),
+});
+
 app.use(express.json());
 app.use(logger('common'));
 
-Chatbot(app);
+const task = cron.schedule('*/1 * * * *', () => {
+  const date = new Date();
+  publishHeartbeat(`I'm alive at ${date}`);
+});
+task.start();
 
-const authService = AuthService(db);
-const authMiddleware = AuthMiddleware(authService);
-const todoAuthMiddleware = TodoAuthMiddleware(authService);
-const router = Router(authMiddleware, todoAuthMiddleware, authService, db);
-
-app.use(router);
+app.ws('/heartbeat', function (ws, req) {
+  setInterval(() => {
+    ws.send('test');
+  }, 6000);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
+
+module.exports = { logger };
